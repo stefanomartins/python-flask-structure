@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <span class="title"><h1>{% block title %} - The People Page {% endblock %}</h1></span>
+    <div class="content">
+        <h2>This is the people Flask blueprint</h2>
+        {% for person in people %}
+            <div class="person">
+                <p><b>#{{ person.id }}</b></p>
+                <p class="title">
+                    <b>
+                        <a href="#">{{ person.name }}</a>
+                    </b>
+                </p>
+                <hr>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

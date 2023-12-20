@@ -1,38 +1,38 @@
 from flask import render_template, request, jsonify
-from app.people import bp
+from app.pessoas import bp
 from app.extensions import db
-from app.models.person import Person
+from app.models.pessoa import Pessoa
 
 
 @bp.route("/", methods=["GET"])
 def index():
-    people = Person.query.all()
-    people = [person.to_dict() for person in people]
-    return jsonify(people=people)
+    pessoas = Pessoa.query.all()
+    pessoas = [pessoa.to_dict() for pessoa in pessoas]
+    return jsonify(pessoas=pessoas)
 
 
 @bp.route("/<int:id>", methods=["GET"])
 def show(id: int):
-    person = Person.query.get(id)
-    person = {"id": person.id, "name": person.name}
-    return jsonify(person)
+    pessoa = Pessoa.query.get(id)
+    pessoa = {"id": pessoa.id, "name": pessoa.nome}
+    return jsonify(pessoa)
 
 
 @bp.route("/add", methods=["POST"])
 def create():
     if request.is_json:
         json_data = request.get_json()
-        name = json_data.get("name")
-        person = Person(name=name)
-        db.session.add(person)
+        nome = json_data.get("nome")
+        pessoa = Pessoa(nome=nome)
+        db.session.add(pessoa)
         db.session.commit()
         return jsonify({"message": "Pessoa adicionada com sucesso."})
 
 
 @bp.route("/delete/<int:id>", methods=["DELETE"])
 def delete(id: int):
-    person = Person.query.get(id)
-    db.session.delete(person)
+    pessoa = Pessoa.query.get(id)
+    db.session.delete(pessoa)
     db.session.commit()
     return jsonify({"message": "Pessoa excluída com sucesso."})
 
@@ -41,7 +41,7 @@ def delete(id: int):
 def edit(id: int):
     if request.is_json:
         json_data = request.get_json()
-        person = Person.query.get(id)
-        person.name = json_data.get("name")
+        pessoa = Pessoa.query.get(id)
+        pessoa.nome = json_data.get("nome")
         db.session.commit()
         return jsonify({"message": "Pessoa atualizada com sucesso."})

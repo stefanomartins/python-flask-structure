@@ -13,8 +13,10 @@ def create_app(config_class=Config):
     # Register blueprints here
     from app.main import bp as main_bp
     app.register_blueprint(main_bp)
-    from app.people import bp as people_bp
-    app.register_blueprint(people_bp, url_prefix='/people')
+    from app.casas import bp as casas_bp
+    app.register_blueprint(casas_bp, url_prefix='/casas')
+    from app.pessoas import bp as pessoas_bp
+    app.register_blueprint(pessoas_bp, url_prefix='/pessoas')
     from flask_swagger_ui import get_swaggerui_blueprint
     swagger_ui_blueprint = get_swaggerui_blueprint(Config.SWAGGER_URL, Config.SWAGGER_API_URI, config={"app_name": "People API"})
     app.register_blueprint(swagger_ui_blueprint, url_prefix=Config.SWAGGER_URL)

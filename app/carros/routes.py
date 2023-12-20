@@ -3,19 +3,29 @@ from app.carros import bp
 from app.extensions import db
 from app.models.carro import Carro
 
-@bp.route('/', methods=['GET'])
+
+@bp.route("/", methods=["GET"])
 def index():
     carros = Carro.query.all()
-    data = []
-    for carro in carros:
-        carro_data = {
-            'placa': carro.placa,
-            'marca': carro.marca,
-            'modelo': carro.modelo,
-            'pessoas': [
-                {'id': pessoa.id, 'nome': pessoa.nome} for pessoa in carro.pessoas
-            ]
-        }
-        data.append(carro_data)
+    carros = [
+        {"placa": carro.placa, "marca": carro.marca, "modelo": carro.modelo}
+        for carro in carros
+    ]
 
-    return jsonify(carros=data)
+    return jsonify(carros=carros)
+
+
+@bp.route("/<string:placa>", methods=["GET"])
+def show(placa: str):
+    carro = Carro.query.get(placa)
+    carro = {
+        "placa": carro.placa,
+        "marca": carro.marca,
+        "modelo": carro.modelo,
+        "motoristas": [
+            {"motorista_id": motorista.id, "motorista_nome": motorista.nome}
+            for motorista in carro.motoristas
+        ],
+    }
+    return jsonify(carro)
+

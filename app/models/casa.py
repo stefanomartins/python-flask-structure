@@ -14,6 +14,3 @@ class Casa(db.Model):
         return (
             f'<Casa "{self.id}, {self.logradouro}, {self.numero}, {self.complemento}, {self.residentes}">'
         )
-
-    def to_dict(self):
-        return {'id': self.id, 'logradouro': self.logradouro, 'numero': self.numero, 'complemento': self.complemento}

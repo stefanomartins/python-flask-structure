@@ -8,7 +8,7 @@ class Carro(db.Model):
     marca = db.Column(db.String(255))
     modelo = db.Column(db.String(255))
 
-    pessoas = db.relationship(
+    motoristas = db.relationship(
         "Pessoa", secondary="carros_pessoas", back_populates="carros"
     )
 

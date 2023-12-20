@@ -10,7 +10,7 @@ class Pessoa(db.Model):
 
     casa = db.relationship("Casa", back_populates="residentes")
     carros = db.relationship(
-        "Carro", secondary="carros_pessoas", back_populates="pessoas"
+        "Carro", secondary="carros_pessoas", back_populates="motoristas"
     )
 
     def __repr__(self):

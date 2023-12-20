@@ -22,8 +22,13 @@ def show(id: int):
         "casa_numero": pessoa.casa.numero,
         "casa_complemento": pessoa.casa.complemento,
         "carros": [
-            {'carro_placa': carro.placa, 'carro_marca': carro.marca, 'carro_modelo': carro.modelo} for carro in pessoa.carros
-        ]
+            {
+                "carro_placa": carro.placa,
+                "carro_marca": carro.marca,
+                "carro_modelo": carro.modelo,
+            }
+            for carro in pessoa.carros
+        ],
     }
     return jsonify(pessoa)
 

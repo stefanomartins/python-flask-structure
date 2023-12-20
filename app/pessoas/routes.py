@@ -7,14 +7,24 @@ from app.models.pessoa import Pessoa
 @bp.route("/", methods=["GET"])
 def index():
     pessoas = Pessoa.query.all()
-    pessoas = [pessoa.to_dict() for pessoa in pessoas]
+    pessoas = [{"id": pessoa.id, "nome": pessoa.nome} for pessoa in pessoas]
+
     return jsonify(pessoas=pessoas)
 
 
 @bp.route("/<int:id>", methods=["GET"])
 def show(id: int):
     pessoa = Pessoa.query.get(id)
-    pessoa = {"id": pessoa.id, "name": pessoa.nome}
+    pessoa = {
+        "id": pessoa.id,
+        "name": pessoa.nome,
+        "casa_logradouro": pessoa.casa.logradouro,
+        "casa_numero": pessoa.casa.numero,
+        "casa_complemento": pessoa.casa.complemento,
+        "carros": [
+            {'carro_placa': carro.placa, 'carro_marca': carro.marca, 'carro_modelo': carro.modelo} for carro in pessoa.carros
+        ]
+    }
     return jsonify(pessoa)
 
 
@@ -23,7 +33,8 @@ def create():
     if request.is_json:
         json_data = request.get_json()
         nome = json_data.get("nome")
-        pessoa = Pessoa(nome=nome)
+        casa_id = json_data.get("casa_id")
+        pessoa = Pessoa(nome=nome, casa_id=casa_id)
         db.session.add(pessoa)
         db.session.commit()
         return jsonify({"message": "Pessoa adicionada com sucesso."})

@@ -13,6 +13,8 @@ def create_app(config_class=Config):
     # Register blueprints here
     from app.main import bp as main_bp
     app.register_blueprint(main_bp)
+    from app.carros import bp as carros_bp
+    app.register_blueprint(carros_bp, url_prefix='/carros')
     from app.casas import bp as casas_bp
     app.register_blueprint(casas_bp, url_prefix='/casas')
     from app.pessoas import bp as pessoas_bp
